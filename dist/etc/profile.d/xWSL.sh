@@ -38,3 +38,4 @@ export XDG_CACHE_HOME=$HOME/.cache
 export XDG_DATA_HOME=$HOME/.local/share
 export GDK_SCALE=HISCALE
 export QT_SCALE_FACTOR=HISCALE
+export WEBKIT_FORCE_SANDBOX=0 
