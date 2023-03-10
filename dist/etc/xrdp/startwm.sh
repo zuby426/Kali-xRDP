@@ -26,4 +26,4 @@ if test -r /etc/default/locale; then
         test -z "${LOCPATH+x}" || export LOCPATH
 fi
 
-xfce4-session
+startxfce4

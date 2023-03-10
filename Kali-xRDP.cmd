@@ -24,7 +24,7 @@ IF NOT EXIST "%TEMP%\windpi.ps1" POWERSHELL.EXE -ExecutionPolicy Bypass -Command
 FOR /f "delims=" %%a in ('powershell -ExecutionPolicy bypass -command "%TEMP%\windpi.ps1" ') do set "WINDPI=%%a"
 
 CLS
-ECHO [Kali-xRDP Installer 20230304]
+ECHO [Kali-xRDP Installer 20230310]
 ECHO:
 ECHO Hit Enter to use your current display scaling in Windows
 SET /p WINDPI=or set your desired value (1.0 to 3.0 in .25 increments) [%WINDPI%]: 
@@ -54,23 +54,23 @@ FOR /F %%A in ("apterr") do If %%~zA NEQ 0 GOTO APTRELY
 
 ECHO:
 ECHO [%TIME:~0,8%] Prepare Distro                          (ETA: 1m30s)
-%GO% "DEBIAN_FRONTEND=noninteractive apt-get download libc-bin libc-l10n libc6 libpam0g locales-all gcc-12-base libcrypt1 libgcc-s1 ; DEBIAN_FRONTEND=noninteractive dpkg -i --force-all ./*.deb ; DEBIAN_FRONTEND=noninteractive apt-get -fy --allow-downgrades install ; rm *.deb ; DEBIAN_FRONTEND=noninteractive apt-get -y --allow-downgrades install git gnupg2 libc-ares2 libssh2-1 libaria2-0 aria2 --no-install-recommends ; cd /tmp ; rm -rf %GITPRJ% ; git clone -b %BRANCH% --depth=1 https://github.com/%GITORG%/%GITPRJ%.git" > "%TEMP%\Kali-xRDP\%TIME:~0,2%%TIME:~3,2%%TIME:~6,2% Prepare Distro.log" 2>&1
+%GO% "DEBIAN_FRONTEND=noninteractive apt-get download libc-bin libc-l10n libc6 libpam0g locales-all gcc-12-base libcrypt1 libgcc-s1 libstdc++6 ; DEBIAN_FRONTEND=noninteractive dpkg -i --force-all ./*.deb ; DEBIAN_FRONTEND=noninteractive apt-get -fy --allow-downgrades install ; rm *.deb ; DEBIAN_FRONTEND=noninteractive apt-get -y --allow-downgrades --no-install-recommends install git gnupg2 libc-ares2 libssh2-1 libaria2-0 aria2 ; cd /tmp ; rm -rf %GITPRJ% ; git clone -b %BRANCH% --depth=1 https://github.com/%GITORG%/%GITPRJ%.git" > "%TEMP%\Kali-xRDP\%TIME:~0,2%%TIME:~3,2%%TIME:~6,2% Prepare Distro.log" 2>&1
 %GO% "find /tmp/Kali-xRDP -type d -exec chmod 755 {} \;"
 %GO% "find /tmp/Kali-xRDP -type f -exec chmod 644 {} \;"
 %GO% "chmod +x /tmp/Kali-xRDP/dist/usr/local/bin/apt-fast ; cp -p /tmp/Kali-xRDP/dist/usr/local/bin/apt-fast /usr/local/bin ; chmod 755 /tmp/Kali-xRDP/dist/etc/profile.d/xWSL.sh /tmp/Kali-xRDP/dist/etc/xrdp/startwm.sh /tmp/Kali-xRDP/dist/usr/bin/pm-is-supported /tmp/Kali-xRDP/dist/usr/local/bin/restartwsl /tmp/Kali-xRDP/dist/usr/local/bin/initwsl ; chmod -R 7700 /tmp/Kali-xRDP/dist/etc/skel/.local"
- 
-ECHO [%TIME:~0,8%] xRDP and 'kali-linux-core' metapackage  (ETA: 6m00s)
-%GO% "DEBIAN_FRONTEND=noninteractive apt-fast -y install --allow-downgrades /tmp/Kali-xRDP/deb/synaptic_0.90.2_amd64.deb /tmp/Kali-xRDP/deb/libphobos2-ldc-shared98_1.28.1-1_amd64.deb /tmp/Kali-xRDP/deb/gksu_2.1.0_amd64.deb /tmp/Kali-xRDP/deb/libgksu2-0_2.1.0_amd64.deb /tmp/Kali-xRDP/deb/libgnome-keyring0_3.12.0-1+b2_amd64.deb /tmp/Kali-xRDP/deb/libgnome-keyring-common_3.12.0-1_all.deb /tmp/Kali-xRDP/deb/multiarch-support_2.27-3ubuntu1_amd64.deb /tmp/Kali-xRDP/deb/wslu_3.2.1-0kali1_amd64.deb /tmp/Kali-xRDP/deb/fonts-cascadia-code_2102.03-1_all.deb sysv-rc picom libxcb-damage0 x11-apps x11-session-utils x11-xserver-utils dialog distro-info-data dumb-init inetutils-syslogd xdg-utils avahi-daemon libnss-mdns binutils putty unzip zip unar unzip dbus-x11 samba-common-bin lhasa arj unace liblhasa0 apt-config-icons apt-config-icons-hidpi apt-config-icons-large apt-config-icons-large-hidpi libvte-2.91-0 libvte-2.91-common libdbus-glib-1-2 xvfb xbase-clients python3-psutil kali-linux-core moreutils xrdp xorgxrdp pulseaudio-module-xrdp --no-install-recommends"  > "%TEMP%\Kali-xRDP\%TIME:~0,2%%TIME:~3,2%%TIME:~6,2% xRDP and 'kali-linux-core' metapackage.log" 2>&1
 
-ECHO [%TIME:~0,8%] Epiphany and 'kali-desktop-xfce'        (ETA: 9m00s)
-%GO% "DEBIAN_FRONTEND=noninteractive apt-fast -y install kali-desktop-xfce kazam epiphany-browser evince gstreamer1.0-gl gstreamer1.0-libav gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-x libevview3-3 libgstreamer-gl1.0-0 libgstreamer-plugins-bad1.0-0 libgstreamer-plugins-base1.0-0 libwebkit2gtk-4.1-0 libyelp0 yelp ; update-rc.d pcscd remove" > "%TEMP%\Kali-xRDP\%TIME:~0,2%%TIME:~3,2%%TIME:~6,2% Epiphany and 'kali-desktop-xfce.log" 2>&1
+ECHO [%TIME:~0,8%] 'kali-linux-core' metapackage and xRDP  (ETA: 3m30s)
+%GO% "DEBIAN_FRONTEND=noninteractive apt-fast -y install --allow-downgrades /tmp/Kali-xRDP/deb/synaptic_0.90.2_amd64.deb /tmp/Kali-xRDP/deb/libphobos2-ldc-shared98_1.28.1-1_amd64.deb /tmp/Kali-xRDP/deb/gksu_2.1.0_amd64.deb /tmp/Kali-xRDP/deb/libgksu2-0_2.1.0_amd64.deb /tmp/Kali-xRDP/deb/libgnome-keyring0_3.12.0-1+b2_amd64.deb /tmp/Kali-xRDP/deb/libgnome-keyring-common_3.12.0-1_all.deb /tmp/Kali-xRDP/deb/multiarch-support_2.27-3ubuntu1_amd64.deb /tmp/Kali-xRDP/deb/wslu_3.2.1-0kali1_amd64.deb /tmp/Kali-xRDP/deb/fonts-cascadia-code_2102.03-1_all.deb sysv-rc picom libxcb-damage0 x11-apps x11-session-utils x11-xserver-utils dialog distro-info-data dumb-init inetutils-syslogd xdg-utils avahi-daemon libnss-mdns binutils putty unzip zip unzip dbus-x11 samba-common-bin lhasa arj unace liblhasa0 apt-config-icons apt-config-icons-hidpi apt-config-icons-large apt-config-icons-large-hidpi libvte-2.91-0 libvte-2.91-common libdbus-glib-1-2 xbase-clients python3-psutil kali-linux-core moreutils xrdp xorgxrdp pulseaudio-module-xrdp --no-install-recommends"  > "%TEMP%\Kali-xRDP\%TIME:~0,2%%TIME:~3,2%%TIME:~6,2% xRDP and 'kali-linux-core' metapackage.log" 2>&1
+
+ECHO [%TIME:~0,8%] Kali Xfce desktop environment           (ETA: 3m00s)
+%GO% "DEBIAN_FRONTEND=noninteractive apt-fast -y install xfce4-settings xfdesktop4 xfce4-session xfdesktop4-data xfce4 xfwm4 qt5ct lsb-release xfce4-datetime-plugin ristretto parole mousepad mate-calc-common xfce4-taskmanager mate-calc xfce4-screenshooter xfce4-clipman xfce4-clipman-plugin xfce4-cpugraph-plugin xfce4-whiskermenu-plugin xdg-user-dirs xdg-user-dirs-gtk kazam kali-menu kali-themes kali-debtags kali-wallpapers-2023 gstreamer1.0-gl gstreamer1.0-plugins-bad gstreamer1.0-plugins-bad-apps gstreamer1.0-plugins-base-apps gstreamer1.0-plugins-good gstreamer1.0-tools mesa-utils qterminal libqt5x11extras5 libqtermwidget5-1 libutf8proc2 qterminal qtermwidget5-data epiphany-browser pcscd --no-install-recommends ; update-rc.d pcscd remove" > "%TEMP%\Kali-xRDP\%TIME:~0,2%%TIME:~3,2%%TIME:~6,2% Kali Xfce desktop environment.log" 2>&1
 
 REM ## Additional items to install can go here...
-ECHO [%TIME:~0,8%] Extras [Mozilla Seamonkey, Zenmap, CRD] (ETA: 1m00s)
+ECHO [%TIME:~0,8%] Extras [Seamonkey, Zenmap, CRD]         (ETA: 1m30s)
 %GO% "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B9C16F2667CA5C CCC158AFC1289A29 ; echo 'deb http://downloads.sourceforge.net/project/ubuntuzilla/mozilla/apt all main' > /etc/apt/sources.list.d/mozilla.list ; cp /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d ; apt-get update" >NUL 2>&1 
-%GO% "wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb -O /tmp/chrome-remote-desktop_current_amd64.deb ; apt-fast -y install seamonkey-mozilla-build nmap liblinear-tools liblinear-dev ncat ndiff /tmp/chrome-remote-desktop_current_amd64.deb /tmp/Kali-xRDP/deb/python-pkg-resources_44.1.1-1_all.deb /tmp/Kali-xRDP/deb/zenmap_7.92-1_all.deb /tmp/Kali-xRDP/deb/python-gtk2_2.24.0-5.1_amd64.deb /tmp/Kali-xRDP/deb/python-gobject-2_2.28.6-14ubuntu1_amd64.deb /tmp/Kali-xRDP/deb/python-numpy_1.16.5-2ubuntu7_amd64.deb /tmp/Kali-xRDP/deb/python-cairo_1.16.2-2ubuntu2_amd64.deb /tmp/Kali-xRDP/deb/libffi7_3.3-6_amd64.deb /tmp/Kali-xRDP/deb/python-glade2_2.24.0-5.1_amd64.deb python2" > "%TEMP%\Kali-xRDP\%TIME:~0,2%%TIME:~3,2%%TIME:~6,2% Extras [Mozilla Seamonkey, Zenmap, CRD].log" 2>&1
-
-%GO% "update-alternatives --install /usr/bin/www-browser www-browser /usr/bin/seamonkey 100 ; update-alternatives --install /usr/bin/gnome-www-browser gnome-www-browser /usr/bin/seamonkey 100 ; update-alternatives --install /usr/bin/x-www-browser x-www-browser /usr/bin/seamonkey 100" > nul 2>&1
+%GO% "wget -q https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb -O /tmp/chrome-remote-desktop_current_amd64.deb ; apt-fast -y install tilix atril engrampa seamonkey-mozilla-build nmap liblinear-tools liblinear-dev ncat ndiff /tmp/chrome-remote-desktop_current_amd64.deb /tmp/Kali-xRDP/deb/python-pkg-resources_44.1.1-1_all.deb /tmp/Kali-xRDP/deb/zenmap_7.92-1_all.deb /tmp/Kali-xRDP/deb/python-gtk2_2.24.0-5.1_amd64.deb /tmp/Kali-xRDP/deb/python-gobject-2_2.28.6-14ubuntu1_amd64.deb /tmp/Kali-xRDP/deb/python-numpy_1.16.5-2ubuntu7_amd64.deb /tmp/Kali-xRDP/deb/python-cairo_1.16.2-2ubuntu2_amd64.deb /tmp/Kali-xRDP/deb/libffi7_3.3-6_amd64.deb /tmp/Kali-xRDP/deb/python-glade2_2.24.0-5.1_amd64.deb python2" > "%TEMP%\Kali-xRDP\%TIME:~0,2%%TIME:~3,2%%TIME:~6,2% Extras [Seamonkey, Zenmap, CRD].log" 2>&1
+%GO% "mv /usr/bin/f2py /usr/bin/f2py.P27 ; apt-get download python3-numpy ; dpkg -i --force-all python3-numpy_1*.deb ; rm python3-numpy_1*.deb" >NUL 2>&1
+%GO% "update-alternatives --install /usr/bin/www-browser www-browser /usr/bin/seamonkey 100 ; update-alternatives --install /usr/bin/gnome-www-browser gnome-www-browser /usr/bin/seamonkey 100 ; update-alternatives --install /usr/bin/x-www-browser x-www-browser /usr/bin/seamonkey 100" >NUL 2>&1
 %GO% "mv /usr/bin/pkexec /usr/bin/pkexec.orig ; echo gksudo -k -S -g \$1 > /usr/bin/pkexec ; chmod 755 /usr/bin/pkexec"
 %GO% "which schtasks.exe" > "%TEMP%\SCHT.tmp" & set /p SCHT=<"%TEMP%\SCHT.tmp"
 %GO% "sed -i 's#SCHT#%SCHT%#g' /tmp/Kali-xRDP/dist/usr/local/bin/restartwsl ; sed -i 's#DISTRO#%DISTRO%#g' /tmp/Kali-xRDP/dist/usr/local/bin/restartwsl"
@@ -118,15 +118,21 @@ NETSH AdvFirewall Firewall add rule name="%DISTRO% Secure Shell" dir=in action=a
 NETSH AdvFirewall Firewall add rule name="%DISTRO% Avahi Daemon" dir=in action=allow protocol=UDP localport=5353,53791 > NUL
 START /MIN "%DISTRO% Init" WSL ~ -u root -d %DISTRO% -e initwsl 2
 ECHO Building RDP Connection file, Init system...
-ECHO @START /MIN "%DISTRO%" WSLCONFIG.EXE /t %DISTRO%                  >  "%LOCALAPPDATA%\Kali-xRDP.cmd"
-ECHO @Powershell.exe -Command "Start-Sleep 3"                          >> "%LOCALAPPDATA%\Kali-xRDP.cmd"
-ECHO @START /MIN "%DISTRO%" WSL.EXE ~ -u root -d %DISTRO% -e initwsl 2 >> "%LOCALAPPDATA%\Kali-xRDP.cmd"
+ECHO Set OW = GetObject(^"winmgmts:^" ^& ^"^{impersonationLevel^=impersonate^}!\\.\root\cimv2^") > "%LOCALAPPDATA%\Kali-xRDP.vbs"
+ECHO Set ST = OW.Get(^"Win32_ProcessStartup^") >> "%LOCALAPPDATA%\Kali-xRDP.vbs"
+ECHO Set OC = ST.SpawnInstance_ >> "%LOCALAPPDATA%\Kali-xRDP.vbs"		
+ECHO OC.ShowWindow ^= 0 >> "%LOCALAPPDATA%\Kali-xRDP.vbs"
+ECHO Set OP = GetObject(^"winmgmts:root\cimv2:Win32_Process^") >> "%LOCALAPPDATA%\Kali-xRDP.vbs"
+ECHO WScript.Sleep 2000 >> "%LOCALAPPDATA%\Kali-xRDP.vbs"
+ECHO RT = OP.Create( ^"WSLCONFIG.EXE /t kali-linux^", null, OC, intProcessID) >> "%LOCALAPPDATA%\Kali-xRDP.vbs"
+ECHO WScript.Sleep 5000 >> "%LOCALAPPDATA%\Kali-xRDP.vbs"
+ECHO RT = OP.Create( ^"WSL.EXE ~ -u root -d kali-linux -e initwsl 2^", null, OC, intProcessID) >> "%LOCALAPPDATA%\Kali-xRDP.vbs"	
 POWERSHELL -Command "Copy-Item '%DISTROFULL%\Kali-xRDP (%XU%).rdp' ([Environment]::GetFolderPath('Desktop'))"
 ECHO Building Scheduled Task...
 %GO% "cp /tmp/Kali-xRDP/xWSL.xml ."
 %TEMP%\LxRunOffline.exe su -n %DISTRO% -v 1000
 POWERSHELL -C "$WAI = (whoami)                       ; (Get-Content .\xWSL.xml).replace('AAAA', $WAI) | Set-Content .\xWSL.xml"
-POWERSHELL -C "$WAC = '%LOCALAPPDATA%\Kali-xRDP.cmd' ; (Get-Content .\xWSL.xml).replace('QQQQ', $WAC) | Set-Content .\xWSL.xml"
+POWERSHELL -C "$WAC = '%LOCALAPPDATA%\Kali-xRDP.vbs' ; (Get-Content .\xWSL.xml).replace('QQQQ', $WAC) | Set-Content .\xWSL.xml"
 SCHTASKS /Create /TN:%DISTRO% /XML ./xWSL.xml /F
 PING -n 6 LOCALHOST > NUL 
 ECHO:
